@@ -374,6 +374,27 @@ jq --arg tag "TAG_NAME" '
 ' "$TAGS_FILE" > /tmp/tags.json && mv /tmp/tags.json "$TAGS_FILE"
 ```
 
+### Sync Tags via Gist (Multi-Computer)
+
+Store your Gist ID in an environment variable for privacy:
+
+```bash
+# Set your Gist ID (add to ~/.zshrc)
+export SMTP_TAGS_GIST_ID="your_gist_id_here"
+
+# Push local tags to Gist (after local changes)
+gh gist edit $SMTP_TAGS_GIST_ID -f tags.json ~/.claude/skills/smtp-dev/tags.json
+
+# Pull tags from Gist (on another computer or to sync)
+gh gist view $SMTP_TAGS_GIST_ID -f tags.json > ~/.claude/skills/smtp-dev/tags.json
+```
+
+**Quick aliases** (add to ~/.zshrc):
+```bash
+alias smtp-tags-push='gh gist edit $SMTP_TAGS_GIST_ID -f tags.json ~/.claude/skills/smtp-dev/tags.json'
+alias smtp-tags-pull='gh gist view $SMTP_TAGS_GIST_ID -f tags.json > ~/.claude/skills/smtp-dev/tags.json'
+```
+
 ### Sync with API
 
 Sync local tags.json with remote accounts:
@@ -434,6 +455,11 @@ jq --arg tag "to-delete" '
 - None currently
 
 ## Changelog
+
+### v1.2.0
+- Added Gist sync for multi-computer tag synchronization
+- Push/pull tags via GitHub Gist
+- Quick aliases for sync commands
 
 ### v1.1.0
 - Added local tag management system
